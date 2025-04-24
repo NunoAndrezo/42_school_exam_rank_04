@@ -15,7 +15,6 @@ void	free_json(json j)
 			free(j.string);
 			break;
 		default:
-			printf("inside default\n");
 			break;
 	}
 }
