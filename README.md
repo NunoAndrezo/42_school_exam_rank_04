@@ -1,2 +1,2 @@
 # 42_school_exam_rank_04
-Exercises and solutions for exam rank 4 in Berlin 42 school
+Guideline for the new exam rank 04, 42 school
