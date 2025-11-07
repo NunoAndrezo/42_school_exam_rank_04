@@ -11,14 +11,16 @@ If type is 'r' the function must return a file descriptor connected to the outpu
 If type is 'w' the function must return a file descriptor connected to the input of the command.
 In case of error or invalid parameter the function must return -1.
 
-For example, the function could be used like that:
-
 int	main() {
 	int	fd = ft_popen("ls", (char *const []){"ls", NULL}, 'r');
+	dup2(fd, 0);
+	fd = ft_popen("grep", (char *const []){"grep", "c", NULL}, 'r');
 	char	*line;
 	while ((line = get_next_line(fd)))
-		ft_putstr(line);
+		printf("%s", line);
 }
+
 
 Hints:
 Do not leak file descriptors!
+This exercise is inspired by the libc's popen().
