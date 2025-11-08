@@ -1,21 +1,23 @@
+#include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdlib.h>
-#include <stdio.h>
 
-int picoshell(char **cmds[])
+int	picoshell(char **cmds[])
 {
-	int fd[2];
-	int pid;
-	int stat;
-	int pfd = 0;
+	int		status;
+	int		pfd = 0;
+	int		fd[2];
+	int		pid;
 
-	for (size_t i = 0; cmds[i]; i++)
+	if (!cmds || !*cmds || !**cmds)
+		return (1);
+	for(int i; cmds[i]; i++)
 	{
-		if (cmds[i + 1]) // not last command
+		if (cmds[i + 1])
 		{
 			if (pipe(fd) < 0)
-				return 1;
+				return (1);
 		}
 		else
 		{
@@ -23,30 +25,32 @@ int picoshell(char **cmds[])
 			fd[1] = -1;
 		}
 		pid = fork();
-		if (pid < 0) // err handle
+		if (pid < 0)
 		{
-			for (size_t j = 0; j < 2; j++) // in case it's the last arg
-				if (fd[j] != -1)
-					close(fd[j]);
-			return 1;
-		}
-		if (!pid) // child
-		{
-			if (pfd) // should ignore the first case
+			if (fd[1] != -1)
 			{
-				if (dup2(pfd, 0) < 0)
+				close(fd[0]);
+				close(fd[1]);
+				return (1);
+			}
+		}
+		if (pid == 0)
+		{
+			if (pfd)
+			{
+				if (dup2(pfd, STDIN_FILENO) == -1)
 					exit(1);
 				close(pfd);
 			}
 			if (fd[1] != -1)
 			{
-				if (dup2(fd[1], 1) < 0)
+				if (dup2(fd[1], STDOUT_FILENO) == -1)
 					exit(1);
 				close(fd[1]);
-				close(fd[0]); // close the fds either way
+				close(fd[0]);
 			}
 			execvp(cmds[i][0], cmds[i]);
-			exit(1); // exec fail
+			exit(1);
 		}
 		if (pfd)
 			close(pfd);
@@ -54,12 +58,10 @@ int picoshell(char **cmds[])
 			close(fd[1]);
 		pfd = fd[0];
 	}
-	while (wait(&stat) > 0) // wait for the program to finish
+	while (wait(&status) > 0)
 	{
-		if (WIFEXITED(stat) && WEXITSTATUS(stat)) // if the exit sign is not 0 smth happened
-			return 1;
-		else if (!WIFEXITED(stat)) // the program did not terminated normally
-			return 1;
+		if (WIFEXITED(status) && WEXITSTATUS(status))
+			return (1);
 	}
-	return 0;
+	return (0);
 }

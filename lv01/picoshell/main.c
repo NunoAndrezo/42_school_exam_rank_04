@@ -31,7 +31,7 @@ int	main(int argc, char **argv)
 	}
 	int ret = picoshell(cmds);
 	if (ret)
-		perror("picoshell");
+		perror("error");
 	free(cmds);
 	return ret;
 }
