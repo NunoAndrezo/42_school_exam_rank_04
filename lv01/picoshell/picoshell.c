@@ -8,7 +8,7 @@ int	picoshell(char **cmds[])
 	int		status;
 	int		pfd = 0;
 	int		fd[2];
-	int		pid;
+	pid_t	pid;
 
 	if (!cmds || !*cmds || !**cmds)
 		return (1);
