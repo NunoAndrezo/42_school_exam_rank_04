@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <signal.h>
+#include <stdbool.h>
 
-int	sandbox(void (*f)(void), unsigned int timeout, int verbose);
+int sandbox(void (*f)(void), unsigned int timeout, bool verbose);
 
 /* Nice function */
 void	nice_function(void)
