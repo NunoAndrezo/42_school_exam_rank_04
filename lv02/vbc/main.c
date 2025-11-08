@@ -53,13 +53,13 @@ int	eval_tree(node *tree)
 
 void destroy_tree(node* tree)
 {
-    if (tree) {
-        if (tree->type != VAL) {
-            destroy_tree(tree->l);
-            destroy_tree(tree->r);
-        }
-        free(tree);
-    }
+	if (tree) {
+		if (tree->type != VAL) {
+			destroy_tree(tree->l);
+			destroy_tree(tree->r);
+		}
+		free(tree);
+	}
 }
 
 int	main(int ac, char **av)
