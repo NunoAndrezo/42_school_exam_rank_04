@@ -1,14 +1,14 @@
-#include <unistd.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 
 int	ft_popen(const char *file, char *const argv[], char type)
 {
+	pid_t	pid;
 	int		fd[2];
-	int		pid;
 
-	if (!file || !type || !argv)
+	if (!file || !argv || !type)
 		return -1;
 	if (type != 'w' && type != 'r')
 		return -1;

@@ -2,38 +2,39 @@
 
 node *pars_nr(char **s)
 {
-	if (!isdigit((**s)))
+	if (!isdigit(**s))
 	{
-		unexpected((**s));
-		return (NULL);
+		unexpected(**s);
+		return NULL;
 	}
-	node n = {.type = VAL, .val = (**s) - '0', .l = NULL, .r = NULL};
+	node n = {.type = VAL, .val = **s - '0', .l = NULL, .r = NULL};
 	(*s)++;
 	return new_node(n);
 }
 
-node *pars_parenthesis(char **s)
+node *pars_parenth(char **s)
 {
 	if (accept(s, '('))
 	{
 		node *expr = pars_expr(s);
-		if (!expect(s, ')'))
+		if (expect(s, ')'))
+			return expr;
+		else
 		{
 			destroy_tree(expr);
 			return NULL;
 		}
-		else
-			return expr;
 	}
 	return pars_nr(s);
 }
 
+
 node *pars_mult(char **s)
 {
-	node *left = pars_parenthesis(s);
+	node *left = pars_parenth(s);
 	while (accept(s, '*'))
 	{
-		node *right = pars_parenthesis(s);
+		node *right = pars_parenth(s);
 		if (!right)
 		{
 			destroy_tree(left);
