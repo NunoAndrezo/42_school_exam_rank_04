@@ -1,6 +1,16 @@
-Write a program that will print the result of a math expression given as an argument.
-You must handle the operations plus(+), multiplication (*) and parentheses.
-Values will be between 0 and 9. For example this should work:
+Allowed functions: malloc, calloc, realloc, free, printf, isdigit, write
+
+Write a program that print the result of a math expression given as argument.
+You must handle operations '+' '*' and the parenthesis.
+You don't have to handle whitespaces in the expression.
+All the values in the expression will be between 0 and 9 included.
+In case of unexpected symbol, you will print "Unexpected token '%c'\n" and exit with code 1. (If the symbol is the end of input you will print: "Unexpexted end of input\n").
+This rule also apply in case you find an unexpected '(' or ')'.
+In case of syscall failure, you will exit with 1.
+
+You will find in this directory the beginning of the code you need to write.
+
+Examples:
 
 ./a.out '1'
 1
